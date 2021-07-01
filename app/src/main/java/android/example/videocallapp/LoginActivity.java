@@ -38,17 +38,23 @@ public class LoginActivity extends AppCompatActivity {
                 String email , pass;
                 email = emailBox.getText().toString();
                 pass = passwordBox.getText().toString();
-                auth.signInWithEmailAndPassword(email , pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if(task.isSuccessful()){
-                            startActivity(new Intent(LoginActivity.this , DashboardActivity.class));
-                            Toast.makeText(LoginActivity.this , "logged in." , Toast.LENGTH_SHORT).show();
-                        }else{
-                            Toast.makeText(LoginActivity.this , task.getException().getLocalizedMessage() , Toast.LENGTH_SHORT).show();
+                if(email.length() == 0){
+                    emailBox.setError("Email is required");
+                }else if(pass.length() == 0){
+                    passwordBox.setError("Password is required");
+                }else{
+                    auth.signInWithEmailAndPassword(email , pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if(task.isSuccessful()){
+                                startActivity(new Intent(LoginActivity.this , DashboardActivity.class));
+                                Toast.makeText(LoginActivity.this , "logged in." , Toast.LENGTH_SHORT).show();
+                            }else{
+                                Toast.makeText(LoginActivity.this , task.getException().getLocalizedMessage() , Toast.LENGTH_SHORT).show();
+                            }
                         }
-                    }
-                });
+                    });
+                }
             }
         });
 

@@ -48,24 +48,39 @@ public class SignupActivity extends AppCompatActivity {
                 user.setEmail(email);
                 user.setName(name);
                 user.setPass(pass);
-
-                auth.createUserWithEmailAndPassword(email , pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if(task.isSuccessful()){
-                            database.collection("Users")
-                                    .document().set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void aVoid) {
-                                    startActivity(new Intent(SignupActivity.this , LoginActivity.class));
-                                }
-                            });
-                            Toast.makeText(SignupActivity.this , "Account is created." , Toast.LENGTH_SHORT).show();
-                        }else{
-                            Toast.makeText(SignupActivity.this , task.getException().getLocalizedMessage() , Toast.LENGTH_SHORT).show();
+                if(name.length() == 0){
+                    nameBox.setError("Name is required");
+                }else if(email.length() == 0){
+                    emailBox.setError("Email is required");
+                }else if(pass.length() == 0){
+                    passwordBox.setError("Password is required");
+                }else{
+                    auth.createUserWithEmailAndPassword(email , pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if(task.isSuccessful()){
+                                database.collection("Users")
+                                        .document().set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        startActivity(new Intent(SignupActivity.this , LoginActivity.class));
+                                    }
+                                });
+                                Toast.makeText(SignupActivity.this , "Account is created." , Toast.LENGTH_SHORT).show();
+                            }else{
+                                Toast.makeText(SignupActivity.this , task.getException().getLocalizedMessage() , Toast.LENGTH_SHORT).show();
+                            }
                         }
-                    }
-                });
+                    });
+                }
+
+            }
+        });
+
+        loginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(SignupActivity.this , LoginActivity.class));
             }
         });
     }
