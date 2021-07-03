@@ -2,6 +2,18 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+        android:id="@+id/groupCall"
+        android:icon="@drawable/group"
+        android:title="Group Call" />
+    <item
+        android:id="@+id/profile"
+        android:icon="@drawable/nav_user"
+        android:title="Profile" />
+    <item
+        android:id="@+id/chat"
+        android:icon="@drawable/messenger"
+        android:title="Chat" />
+    <item
         android:id="@+id/logout"
         android:icon="@drawable/logout"
         android:title="Logout" />
