@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/purple_500"
-    tools:context="android.example.videocallapp.LoginActivity">
+    tools:context="android.example.videocallapp.Activities.LoginActivity">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"

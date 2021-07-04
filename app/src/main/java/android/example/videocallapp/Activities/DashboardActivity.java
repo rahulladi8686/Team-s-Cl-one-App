@@ -1,9 +1,9 @@
-package android.example.videocallapp;
+package android.example.videocallapp.Activities;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.example.videocallapp.R;
 import android.os.Bundle;
 
 import me.ibrahimsn.lib.OnItemSelectedListener;
@@ -38,7 +38,7 @@ public class DashboardActivity extends AppCompatActivity {
                         Transaction.replace(R.id.content , new ChatFragment());
                         break;
                     case 3:
-                        //Transaction.replace(R.id.content , new ProfileFragment());
+                        Transaction.replace(R.id.content , new LogoutFragment());
                         break;
                 }
                 Transaction.commit();

@@ -1,9 +1,10 @@
-package android.example.videocallapp;
+package android.example.videocallapp.Activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.example.videocallapp.R;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -48,9 +49,9 @@ public class LoginActivity extends AppCompatActivity {
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if(task.isSuccessful()){
                                 startActivity(new Intent(LoginActivity.this , DashboardActivity.class));
-                                //Toast.makeText(LoginActivity.this , "logged in." , Toast.LENGTH_SHORT).show();
+                                Toast.makeText(LoginActivity.this , "logged in." , Toast.LENGTH_SHORT).show();
                             }else{
-                                //Toast.makeText(LoginActivity.this , task.getException().getLocalizedMessage() , Toast.LENGTH_SHORT).show();
+                                Toast.makeText(LoginActivity.this , task.getException().getLocalizedMessage() , Toast.LENGTH_SHORT).show();
                             }
                         }
                     });

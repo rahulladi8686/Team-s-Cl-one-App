@@ -1,8 +1,9 @@
-package android.example.videocallapp;
+package android.example.videocallapp.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.example.videocallapp.R;
 import android.os.Bundle;
 import android.os.Handler;
 

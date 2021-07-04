@@ -1,5 +1,6 @@
-package android.example.videocallapp;
+package android.example.videocallapp.Activities;
 
+import android.example.videocallapp.R;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
