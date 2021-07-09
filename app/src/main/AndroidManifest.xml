@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<application xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="android.example.videocallapp"
-    tools:ignore="WrongManifestParent">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="android.example.videocallapp">
 
     <application
         android:allowBackup="true"
@@ -23,15 +21,17 @@
             android:label="Login" />
         <activity
             android:name=".Activities.MainActivity"
+            android:theme="@style/Apptheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </application>
+        </activity>
 
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
+    </application>
 
-</application>
+</manifest>
