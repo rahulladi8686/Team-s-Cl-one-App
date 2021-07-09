@@ -20,7 +20,7 @@ public class DashboardActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         FragmentTransaction groupcallTrans = getSupportFragmentManager().beginTransaction();
-        groupcallTrans.replace(R.id.content , new VideocallFragment());
+        groupcallTrans.replace(R.id.frameLayout , new VideocallFragment());
         groupcallTrans.commit();
 
         binding.bottomNav.setOnItemSelectedListener(new OnItemSelectedListener() {
@@ -29,16 +29,16 @@ public class DashboardActivity extends AppCompatActivity {
                 FragmentTransaction Transaction = getSupportFragmentManager().beginTransaction();
                 switch (i){
                     case 0:
-                        Transaction.replace(R.id.content , new VideocallFragment());
+                        Transaction.replace(R.id.frameLayout , new VideocallFragment());
                         break;
                     case 1:
-                        Transaction.replace(R.id.content , new ProfileFragment());
+                        Transaction.replace(R.id.frameLayout , new ProfileFragment());
                         break;
                     case 2:
-                        Transaction.replace(R.id.content , new ChatFragment());
+                        Transaction.replace(R.id.frameLayout , new ChatFragment());
                         break;
                     case 3:
-                        Transaction.replace(R.id.content , new LogoutFragment());
+                        Transaction.replace(R.id.frameLayout , new GroupChatFragment());
                         break;
                 }
                 Transaction.commit();

@@ -10,10 +10,12 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.cooltechworks.views.shimmer.ShimmerRecyclerView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -24,12 +26,12 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.ArrayList;
 
 public class ChatFragment extends Fragment {
-
     FirebaseFirestore database;
     FirebaseDatabase mdatabase;
     ArrayList<User>users;
     UsersAdapter usersAdapter;
     RecyclerView recyclerView;
+    MenuItem menuItem;
 
     public ChatFragment() {
         // Required empty public constructor

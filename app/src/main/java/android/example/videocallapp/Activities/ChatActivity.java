@@ -11,9 +11,12 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.example.videocallapp.Adapters.MessagesAdapter;
 import android.example.videocallapp.Models.Message;
+import android.example.videocallapp.R;
 import android.example.videocallapp.databinding.ActivityChatBinding;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -72,6 +75,7 @@ public class ChatActivity extends AppCompatActivity {
 
         database = FirebaseDatabase.getInstance();
         storage = FirebaseStorage.getInstance();
+
 
         database.getReference().child("Chats")
                 .child(senderRoom)
@@ -221,6 +225,7 @@ public class ChatActivity extends AppCompatActivity {
             }
         }
     }
+
 
     @Override
     public boolean onSupportNavigateUp() {
