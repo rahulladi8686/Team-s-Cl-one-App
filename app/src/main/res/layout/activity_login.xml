@@ -112,6 +112,7 @@
                 android:backgroundTint="#71C3E8"
                 android:padding="15dp"
                 android:text="Sign up"
+                android:textColor="@color/white"
                 android:textSize="14sp"
                 android:textStyle="bold" />
 

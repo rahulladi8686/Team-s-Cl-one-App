@@ -20,8 +20,7 @@
             android:name=".Activities.LoginActivity"
             android:label="Login" />
         <activity
-            android:name=".Activities.MainActivity"
-            android:theme="@style/Apptheme.NoActionBar">
+            android:name=".Activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

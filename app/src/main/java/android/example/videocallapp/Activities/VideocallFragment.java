@@ -22,7 +22,7 @@ import java.net.URL;
 
 public class VideocallFragment extends Fragment {
     EditText secretCodeBox;
-    Button joinBtn, shareBtn;
+    Button joinBtn;
 
     public VideocallFragment() {
         // Required empty public constructor
@@ -40,7 +40,6 @@ public class VideocallFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_videocall, container, false);
         secretCodeBox = (EditText) view.findViewById(R.id.secretCode);
         joinBtn = (Button) view.findViewById(R.id.joinButton);
-        shareBtn = (Button) view.findViewById(R.id.shareButton);
         URL serverURL;
 
 
