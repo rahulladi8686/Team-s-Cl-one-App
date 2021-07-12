@@ -1,5 +1,7 @@
 package android.example.videocallapp.Models;
 
+
+//It stores the messages i.e. message text , id , time etc
 public class Message {
     private  String message , messageId , senderId , imageUrl;
     private long timestamp;

@@ -21,13 +21,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:textSize="12sp"
-            android:textStyle="bold" />
-
-        <View
-            android:id="@+id/view7"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#83303030" />
+            android:textStyle="bold"
+            android:visibility="gone" />
 
         <ImageView
             android:id="@+id/imageView"

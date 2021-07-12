@@ -16,17 +16,22 @@ public class DashboardActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
+
+        //Here through binding we can the reference of variables easily
         binding = android.example.videocallapp.databinding.ActivityDashboardBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        //Getting fragments functionality
         FragmentTransaction groupcallTrans = getSupportFragmentManager().beginTransaction();
         groupcallTrans.replace(R.id.frameLayout , new VideocallFragment());
         groupcallTrans.commit();
 
+        //Adding clicklistener to bottom navigatuon view
         binding.bottomNav.setOnItemSelectedListener(new OnItemSelectedListener() {
             @Override
             public boolean onItemSelect(int i) {
                 FragmentTransaction Transaction = getSupportFragmentManager().beginTransaction();
+                //Here it takes to the selected fragment activity
                 switch (i){
                     case 0:
                         Transaction.replace(R.id.frameLayout , new VideocallFragment());
@@ -46,5 +51,9 @@ public class DashboardActivity extends AppCompatActivity {
             }
        });
 
+    }
+
+    public void onBackPressed() {
+        finishAffinity();
     }
 }

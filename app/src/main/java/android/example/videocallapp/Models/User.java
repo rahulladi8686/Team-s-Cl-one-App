@@ -1,5 +1,7 @@
 package android.example.videocallapp.Models;
 
+
+//It stores the data of user i.e. email, password, profilePicUrl , uid , etc
 public class User {
     private String name , email , pass , profileImage = null , uid;
     public User(){

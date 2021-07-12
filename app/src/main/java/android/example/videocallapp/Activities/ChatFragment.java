@@ -26,12 +26,12 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.ArrayList;
 
 public class ChatFragment extends Fragment {
-    FirebaseFirestore database;
-    FirebaseDatabase mdatabase;
-    ArrayList<User>users;
-    UsersAdapter usersAdapter;
-    RecyclerView recyclerView;
-    MenuItem menuItem;
+    private FirebaseFirestore database;
+    private FirebaseDatabase mDatabase;
+    private ArrayList<User>users;
+    private UsersAdapter usersAdapter;
+    private RecyclerView recyclerView;
+    private MenuItem menuItem;
 
     public ChatFragment() {
         // Required empty public constructor
@@ -45,26 +45,36 @@ public class ChatFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        //Inflating the layout
         View view = inflater.inflate(R.layout.fragment_chat, container, false);
 
+        //Getting reference  of layout varibles
         recyclerView  = view.findViewById(R.id.recyclerView);
 
+        //Getting reference  of firebase varibles
         database = FirebaseFirestore.getInstance();
-        mdatabase = FirebaseDatabase.getInstance();
+        mDatabase = FirebaseDatabase.getInstance();
+
+        //Creating an array list object
         users = new ArrayList<>();
+
+        //Creating an custom adapter object
         usersAdapter = new UsersAdapter(container.getContext() , users);
+        //setting the adapter
         recyclerView.setAdapter(usersAdapter);
 
-
-        mdatabase.getReference().child("Users").addValueEventListener(new ValueEventListener() {
+        //Here we get reference to database and then to specific child "Users"
+        mDatabase.getReference().child("Users").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 users.clear();
                 for(DataSnapshot snapshot1 : snapshot.getChildren()){
                     User user = snapshot1.getValue(User.class);
                     if(!user.getUid().equals(FirebaseAuth.getInstance().getUid()))
+                        //Adding users to a list and then using them to populate with help of adapter
                         users.add(user);
                 }
+                //Notifying the adapter to populate the data
                 usersAdapter.notifyDataSetChanged();
             }
 
@@ -73,18 +83,6 @@ public class ChatFragment extends Fragment {
 
             }
         });
-
-//        database.collection("Users").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//            @Override
-//            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                users.clear();
-//                for(QueryDocumentSnapshot snapshot1 : task.getResult()){
-//                    users.add(snapshot1.toObject(User.class));
-//                }
-//                usersAdapter.notifyDataSetChanged();
-//            }
-//        });
-
         return view;
     }
 }

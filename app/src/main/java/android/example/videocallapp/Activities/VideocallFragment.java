@@ -21,8 +21,12 @@ import java.net.URL;
 
 
 public class VideocallFragment extends Fragment {
-    EditText secretCodeBox;
-    Button joinBtn;
+
+
+    private EditText secretCodeBox;
+    private Button joinBtn;
+
+    private URL serverURL;
 
     public VideocallFragment() {
         // Required empty public constructor
@@ -37,13 +41,16 @@ public class VideocallFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        //Inflating the layout
         View view = inflater.inflate(R.layout.fragment_videocall, container, false);
+
+        //Getting refrence to the layout variables
         secretCodeBox = (EditText) view.findViewById(R.id.secretCode);
         joinBtn = (Button) view.findViewById(R.id.joinButton);
-        URL serverURL;
 
 
         try {
+            //Here we connect to the Gitsi server
             serverURL = new URL("https://meet.jit.si");
             JitsiMeetConferenceOptions defaultOptions =
                     new JitsiMeetConferenceOptions.Builder()
@@ -52,19 +59,21 @@ public class VideocallFragment extends Fragment {
                             .build();
             JitsiMeet.setDefaultConferenceOptions(defaultOptions);
         } catch (MalformedURLException e) {
+            //Throws exception if there is any error in connection to server
             e.printStackTrace();
         }
 
-
+        //Added click listener to join button
         joinBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(container.getContext(),"opende" , Toast.LENGTH_SHORT).show();
+                Toast.makeText(container.getContext(),"Joined" , Toast.LENGTH_SHORT).show();
+                //Here we connect to the jisti server by creating Jitsi object
                 JitsiMeetConferenceOptions options = new JitsiMeetConferenceOptions.Builder()
                         .setRoom(secretCodeBox.getText().toString())
                         .setWelcomePageEnabled(false)
                         .build();
-
+                //Here the server get launched
                 JitsiMeetActivity.launch(container.getContext() , options);
             }
         });

@@ -7,10 +7,24 @@
     tools:context="android.example.videocallapp.Activities.SignupActivity">
 
     <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/appCompatImageView2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/background_image_one_signup"
-        android:scaleType="centerCrop"/>
+        android:scaleType="centerCrop"
+        android:src="@drawable/background_image_one_signup" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/caesar_dressing"
+        android:text="Team's Clone"
+        android:textColor="@color/white"
+        android:textSize="36sp"
+        app:layout_constraintBottom_toTopOf="@+id/profilePic"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/appCompatImageView2" />
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/profilePic"

@@ -4,30 +4,31 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:backgroundTint="#71C3E8"
     tools:context=".Activities.VideocallFragment">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="280dp"
+        android:layout_height="235dp"
         android:layout_gravity="center_vertical"
         android:layout_margin="30dp"
-        app:cardBackgroundColor="#FFFFFF">
+        app:cardBackgroundColor="#7DC9EF"
+        app:cardCornerRadius="5dp">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="273dp"
+            android:layout_height="227dp"
             android:layout_margin="5dp"
+            android:background="#505662"
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/textView5"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/homemade_apple"
+                android:fontFamily="@font/caesar_dressing"
                 android:gravity="center"
-                android:text="CALL APP"
-                android:textColor="#F3451E4E"
+                android:text="Team's Clone"
+                android:textColor="@color/white"
                 android:textSize="40sp" />
 
             <TextView
@@ -37,7 +38,7 @@
                 android:layout_margin="5dp"
                 android:gravity="center"
                 android:text="Please share this code with your friends to start video call."
-                android:textColor="@color/black" />
+                android:textColor="@color/white" />
 
             <EditText
                 android:id="@+id/secretCode"
@@ -50,8 +51,8 @@
                 android:hint="Secret Code"
                 android:inputType="textPersonName"
                 android:padding="10dp"
-                android:textColor="#100F0F"
-                android:textColorHint="#7A7474" />
+                android:textColor="@color/white"
+                android:textColorHint="#CAC5C5" />
 
             <Button
                 android:id="@+id/joinButton"
@@ -59,7 +60,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:backgroundTint="#71C3E8"
-                android:text="Button" />
+                android:text="Join" />
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>

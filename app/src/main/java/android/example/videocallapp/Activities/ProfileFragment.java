@@ -35,13 +35,14 @@ import com.google.firebase.storage.UploadTask;
 
 public class ProfileFragment extends Fragment {
 
-    FirebaseDatabase mdatabase;
-    FirebaseAuth auth;
-    FirebaseStorage storage;
-    ImageView profilePic;
-    TextView name , email;
-    User muser;
-    Button logout;
+    private FirebaseDatabase mdatabase;
+    private FirebaseAuth auth;
+    private FirebaseStorage storage;
+
+    private ImageView profilePic;
+    private TextView name , email;
+    private User muser;
+    private Button logout;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -57,36 +58,43 @@ public class ProfileFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        //Getting reference  of firebase varibles
         auth = FirebaseAuth.getInstance();
         storage = FirebaseStorage.getInstance();
         mdatabase = FirebaseDatabase.getInstance();
 
+        //Inflating the layout
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
 
+        //Getting reference  of layout varibles
         profilePic = (ImageView)view.findViewById(R.id.profilePic);
         name = (TextView) view.findViewById(R.id.name);
         email = (TextView) view.findViewById(R.id.mail);
         logout = (Button) view.findViewById(R.id.button2);
 
+        //Here we get reference to database and then to specific child "Users"
         mdatabase.getReference().child("Users").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                //users.clear();
                 for(DataSnapshot snapshot1 : snapshot.getChildren()){
+
+                    //Getting the user's refernce present in database
                     User user = snapshot1.getValue(User.class);
+
+                    //Comparing the user from data base to the logged in user
                     if(user.getUid().equals(FirebaseAuth.getInstance().getUid()))
                     {
                         muser = user;
                         if(muser.getProfileImage() != null)
-                        Glide.with(getContext()).load(muser.getProfileImage())
-                        .placeholder(R.drawable.avatar)
-                        .into(profilePic);
-                        email.setText(user.getEmail());
-                        name.setText(user.getName());
+                            //Setting user's profile uisng Glide
+                            Glide.with(getContext()).load(muser.getProfileImage())
+                            .placeholder(R.drawable.avatar)
+                            .into(profilePic);
+                            //Setting user's name and email
+                            email.setText(user.getEmail());
+                            name.setText(user.getName());
                     }
                 }
-
-                //usersAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -95,12 +103,14 @@ public class ProfileFragment extends Fragment {
             }
         });
 
+        //Added onclick listener to logout
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        // If user selects yes then he gets logged out or else remains logged in
                         switch (which){
                             case DialogInterface.BUTTON_POSITIVE:
                                 FirebaseAuth.getInstance().signOut();
@@ -108,86 +118,16 @@ public class ProfileFragment extends Fragment {
                                 break;
 
                             case DialogInterface.BUTTON_NEGATIVE:
-                                //startActivity(new Intent(container.getContext() , VideocallFragment.class));
                                 break;
                         }
                     }
                 };
-
+                //Createds a dialog to show yes or no option
                 AlertDialog.Builder builder = new AlertDialog.Builder(container.getContext());
                 builder.setMessage("Do you want to logout?").setPositiveButton("Yes", dialogClickListener)
                         .setNegativeButton("No", dialogClickListener).show();
             }
         });
-
-//
-//        Glide.with(getContext()).load(muser.getProfileImage())
-//                .placeholder(R.drawable.avatar)
-//                .into(profilePic);
-
-//        profilePic.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent();
-//                intent.setAction(Intent.ACTION_GET_CONTENT);
-//                intent.setType("image/*");
-//                startActivityForResult(intent, 45);
-//            }
-//        });
-
-//        setup.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                String name = textView.getText().toString();
-//                if(name.isEmpty()) {
-//                    textView.setError("Please type a name");
-//                    return;
-//                }
-//                if(selectedImage != null){
-//                    StorageReference reference = storage.getReference().child("Profiles").child(auth.getUid());
-//                    reference.putFile(selectedImage).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
-//                        @Override
-//                        public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-//                            if(task.isSuccessful()){
-//                                reference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-//                                    @Override
-//                                    public void onSuccess(Uri uri) {
-//                                        String imageUrl = uri.toString();
-//                                        String uid = auth.getUid();
-//                                        String name = textView.getText().toString();
-//                                        User user = new User(name , imageUrl , uid);
-//                                        database
-//                                                .getReference()
-//                                                .child("Users")
-//                                                .child(uid)
-//                                                .setValue(user)
-//                                                .addOnSuccessListener(new OnSuccessListener<Void>() {
-//                                                    @Override
-//                                                    public void onSuccess(Void aVoid) {
-//
-//                                                    }
-//                                                });
-//                                    }
-//                                });
-//                            }
-//                        }
-//                    });
-//                }
-//            }
-//        });
-
         return view;
     }
-
-//    @Override
-//    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//
-//        if(data != null){
-//            if(data.getData() != null){
-//                profilePic.setImageURI(data.getData());
-//                selectedImage = data.getData();
-//            }
-//        }
-//    }
 }

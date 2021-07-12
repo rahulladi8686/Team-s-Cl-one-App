@@ -43,6 +43,7 @@ public class GroupMessagesAdapter extends RecyclerView.Adapter {
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        //Inflating the layout
         if(viewType == ITEM_SENT) {
             View view = LayoutInflater.from(context).inflate(R.layout.item_sent_group, parent, false);
             return new SentViewHolder(view);
@@ -54,6 +55,7 @@ public class GroupMessagesAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemViewType(int position) {
+        //Checking recivers or sender's message
         Message message = messages.get(position);
         if(FirebaseAuth.getInstance().getUid().equals(message.getSenderId())) {
             return ITEM_SENT;
@@ -75,10 +77,12 @@ public class GroupMessagesAdapter extends RecyclerView.Adapter {
                 R.drawable.ic_fb_angry
         };
 
+        //Getting the feature of reactions
         ReactionsConfig config = new ReactionsConfigBuilder(context)
                 .withReactions(reactions)
                 .build();
 
+        //Setting popup to set feeling for a message
         ReactionPopup popup = new ReactionPopup(context, config, (pos) -> {
             if(holder.getClass() == SentViewHolder.class) {
                 SentViewHolder viewHolder = (SentViewHolder)holder;
@@ -92,8 +96,10 @@ public class GroupMessagesAdapter extends RecyclerView.Adapter {
 
             }
 
+            //Setting feeling to the message
             message.setFeeling(pos);
 
+            //Putting message in the firebase
             FirebaseDatabase.getInstance().getReference()
                     .child("Public")
                     .child(message.getMessageId()).setValue(message);
@@ -105,8 +111,10 @@ public class GroupMessagesAdapter extends RecyclerView.Adapter {
 
 
         if(holder.getClass() == SentViewHolder.class) {
+            //Getting instance
             SentViewHolder viewHolder = (SentViewHolder)holder;
 
+            //Checking if the message is photo
             if(message.getMessage().equals("photo")) {
                 viewHolder.binding.imageView.setVisibility(View.VISIBLE);
                 viewHolder.binding.message.setVisibility(View.GONE);
@@ -116,6 +124,7 @@ public class GroupMessagesAdapter extends RecyclerView.Adapter {
                         .into(viewHolder.binding.imageView);
             }
 
+            //Loading messages using adapter from firebase
             FirebaseDatabase.getInstance()
                     .getReference().child("Users")
                     .child(message.getSenderId())
@@ -124,7 +133,7 @@ public class GroupMessagesAdapter extends RecyclerView.Adapter {
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             if(snapshot.exists()) {
                                 User user = snapshot.getValue(User.class);
-                                viewHolder.binding.name.setText("@" + user.getName());
+                                viewHolder.binding.name.setText("you");
                             }
                         }
 
@@ -134,8 +143,10 @@ public class GroupMessagesAdapter extends RecyclerView.Adapter {
                         }
                     });
 
+            //Setting up the messages
             viewHolder.binding.message.setText(message.getMessage());
 
+            //Checking if there is any feeling attached to the message
             if(message.getFeeling() >= 0) {
                 viewHolder.binding.feeling.setImageResource(reactions[message.getFeeling()]);
                 viewHolder.binding.feeling.setVisibility(View.VISIBLE);
@@ -160,7 +171,10 @@ public class GroupMessagesAdapter extends RecyclerView.Adapter {
             });
 
         } else {
+            //Getting instance
             ReceiverViewHolder viewHolder = (ReceiverViewHolder)holder;
+
+            //Checking if the message is photo
             if(message.getMessage().equals("photo")) {
                 viewHolder.binding.imageView.setVisibility(View.VISIBLE);
                 viewHolder.binding.message.setVisibility(View.GONE);
@@ -169,6 +183,8 @@ public class GroupMessagesAdapter extends RecyclerView.Adapter {
                         .placeholder(R.drawable.place_holder)
                         .into(viewHolder.binding.imageView);
             }
+
+            //Loading messages using adapter from database
             FirebaseDatabase.getInstance()
                     .getReference().child("Users")
                     .child(message.getSenderId())
@@ -177,7 +193,7 @@ public class GroupMessagesAdapter extends RecyclerView.Adapter {
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             if(snapshot.exists()) {
                                 User user = snapshot.getValue(User.class);
-                                viewHolder.binding.name.setText("@" + user.getName());
+                                viewHolder.binding.name.setText(user.getName());
                             }
                         }
 
@@ -186,8 +202,11 @@ public class GroupMessagesAdapter extends RecyclerView.Adapter {
 
                         }
                     });
+
+            //Setting up the messages
             viewHolder.binding.message.setText(message.getMessage());
 
+            //Checking if there is any feeling attached to the message
             if(message.getFeeling() >= 0) {
                 //message.setFeeling(reactions[message.getFeeling()]);
                 viewHolder.binding.feeling.setImageResource(reactions[message.getFeeling()]);
@@ -215,6 +234,7 @@ public class GroupMessagesAdapter extends RecyclerView.Adapter {
         }
     }
 
+    //Getting the total count of messages
     @Override
     public int getItemCount() {
         return messages.size();

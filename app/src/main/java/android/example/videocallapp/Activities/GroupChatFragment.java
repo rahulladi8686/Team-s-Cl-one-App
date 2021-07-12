@@ -42,17 +42,17 @@ import java.util.HashMap;
 public class GroupChatFragment extends Fragment {
 
 
-    GroupMessagesAdapter adapter;
-    ArrayList<Message> messages;
+    private GroupMessagesAdapter adapter;
+    private ArrayList<Message> messages;
 
-    FirebaseDatabase database;
-    FirebaseStorage storage;
+    private FirebaseDatabase database;
+    private FirebaseStorage storage;
 
-    FragmentGroupChatBinding binding;
+    private FragmentGroupChatBinding binding;
 
-    ProgressDialog dialog;
+    private ProgressDialog dialog;
 
-    String senderUid;
+    private String senderUid;
 
     public GroupChatFragment() {
         // Required empty public constructor
@@ -67,33 +67,38 @@ public class GroupChatFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
+        //Getting reference  of firebase varibles
         database = FirebaseDatabase.getInstance();
         storage = FirebaseStorage.getInstance();
         senderUid = FirebaseAuth.getInstance().getUid();
 
+        //Creating binding to get access of the layout variables
         binding = FragmentGroupChatBinding.inflate(
                 inflater);
         View view = binding.getRoot();
 
+        //Showing dialog box while uploading the image
         dialog = new ProgressDialog(container.getContext());
         dialog.setMessage("Uploading Image.....");
         dialog.setCancelable(false);
 
+        //Creating an Arraylist of messages
         messages = new ArrayList<>();
         adapter = new GroupMessagesAdapter(container.getContext() , messages);
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(container.getContext()));
         binding.recyclerView.setAdapter(adapter);
 
+        //Setting onclick listener to send button
         binding.sendBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //Gettign the message that has been typed
                 String messageText = binding.messageBox.getText().toString();
 
+                //Geting time at of message sent
                 Date date = new Date();
                 Message message = new Message(messageText , senderUid , date.getTime());
                 binding.messageBox.setText("");
-
                 database.getReference()
                         .child("Public")
                         .push()
@@ -101,6 +106,7 @@ public class GroupChatFragment extends Fragment {
             }
         });
 
+        //Storing thew messages in firebase database
         database.getReference()
                 .child("Public")
                 .addValueEventListener(new ValueEventListener() {
@@ -121,6 +127,7 @@ public class GroupChatFragment extends Fragment {
                     }
                 });
 
+        //Added onclick listener to the attachment for sending photos from phone gallery
         binding.attachment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -134,6 +141,8 @@ public class GroupChatFragment extends Fragment {
         return view;
     }
 
+
+    //Getting image from gallery
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -141,8 +150,10 @@ public class GroupChatFragment extends Fragment {
         if(requestCode == 20){
             if(data != null){
                 if(data.getData() != null){
+                    //Uri of the image selected
                     Uri selectedImage = data.getData();
                     Calendar calendar = Calendar.getInstance();
+                    //Storing in storage of database
                     StorageReference reference = storage.getReference().child("Chats").child(calendar.getTimeInMillis() + "");
                     dialog.show();
                     reference.putFile(selectedImage).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
@@ -155,13 +166,14 @@ public class GroupChatFragment extends Fragment {
                                     public void onSuccess(Uri uri) {
                                         String filepath = uri.toString();
                                         String messageText = binding.messageBox.getText().toString();
-
+                                        //Pushing the message in the firebase
                                         Date date = new Date();
                                         Message message = new Message(messageText , senderUid , date.getTime());
                                         message.setMessage("photo");
                                         message.setImageUrl(filepath);
                                         binding.messageBox.setText("");
 
+                                        //storing the message in data base
                                         database.getReference()
                                                 .child("Public")
                                                 .push()

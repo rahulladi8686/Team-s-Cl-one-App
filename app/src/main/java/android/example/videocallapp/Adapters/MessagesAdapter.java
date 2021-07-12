@@ -72,6 +72,7 @@ public class MessagesAdapter extends RecyclerView.Adapter {
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        //Inflating the layout
         if(viewType == ITEM_SENT){
             View view = LayoutInflater.from(context).inflate(R.layout.item_sent , parent , false);
             return new SentViewHolder(view);
@@ -84,6 +85,7 @@ public class MessagesAdapter extends RecyclerView.Adapter {
     @Override
     public int getItemViewType(int position) {
         Message message = messages.get(position);
+        //Checking recivers or sender's message
         if(FirebaseAuth.getInstance().getUid().equals(message.getSenderId())){
             return ITEM_SENT;
         }else{
@@ -93,8 +95,10 @@ public class MessagesAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        //Getting Message from specific positon in array list
         Message message = messages.get(position);
 
+        //Reactions array
         int reactions[] = { R.drawable.ic_fb_like,
                 R.drawable.ic_fb_love,
                 R.drawable.ic_fb_laugh,
@@ -102,10 +106,12 @@ public class MessagesAdapter extends RecyclerView.Adapter {
                 R.drawable.ic_fb_sad,
                 R.drawable.ic_fb_angry};
 
+        //Getting the feature of reactions
         ReactionsConfig config = new ReactionsConfigBuilder(context)
                 .withReactions(reactions)
                 .build();
 
+        //Setting popup to set feeling for a message
         ReactionPopup popup = new ReactionPopup(context, config, (pos) -> {
             if(holder.getClass() == SentViewHolder.class){
                 SentViewHolder viewHolder = (SentViewHolder)holder;
@@ -117,8 +123,10 @@ public class MessagesAdapter extends RecyclerView.Adapter {
                 viewHolder.binding.feeling.setVisibility(View.VISIBLE);
             }
 
+            //Setting feeling to the message
             message.setFeeling(pos);
 
+            //Putting message in the firebase
             FirebaseDatabase.getInstance()
                     .getReference()
                     .child("Chats")
@@ -138,9 +146,12 @@ public class MessagesAdapter extends RecyclerView.Adapter {
 
 
         if(holder.getClass() == SentViewHolder.class){
+            //Getting instance
             SentViewHolder viewHolder = (SentViewHolder)holder;
+            //Setting message
             viewHolder.binding.message.setText(message.getMessage());
 
+            //Checking if the message is photo
             if(message.getMessage() == "photo" || message.getMessage().equals("photo")){
                 viewHolder.binding.imageView.setVisibility(View.VISIBLE);
                 viewHolder.binding.message.setVisibility(View.GONE);
@@ -150,12 +161,14 @@ public class MessagesAdapter extends RecyclerView.Adapter {
                         .into(viewHolder.binding.imageView);
             }
 
+            //Checking if there is any feeling attached to the message
             if(message.getFeeling() >= 0){
                 viewHolder.binding.feeling.setImageResource((reactions[(int)message.getFeeling()]));
                 viewHolder.binding.feeling.setVisibility(View.VISIBLE);
             }else{
                 viewHolder.binding.feeling.setVisibility(View.GONE);
             }
+
 
             viewHolder.binding.message.setOnTouchListener(new View.OnTouchListener() {
                 @Override
@@ -173,9 +186,12 @@ public class MessagesAdapter extends RecyclerView.Adapter {
                 }
             });
         }else{
+            //Getting instance
             RecieverViewHolder viewHolder =  (RecieverViewHolder)holder;
+            //Setting message
             viewHolder.binding.message.setText(message.getMessage());
 
+            //Checking if the message is photo
             if(message.getMessage() == "photo" || message.getMessage().equals("photo")){
                 viewHolder.binding.imageView.setVisibility(View.VISIBLE);
                 viewHolder.binding.message.setVisibility(View.GONE);
@@ -185,6 +201,7 @@ public class MessagesAdapter extends RecyclerView.Adapter {
                         .into(viewHolder.binding.imageView);
             }
 
+            //Checking if there is any feeling attached to the message
             if(message.getFeeling() >= 0){
                 viewHolder.binding.feeling.setImageResource((reactions[(int)message.getFeeling()]));
                 viewHolder.binding.feeling.setVisibility(View.VISIBLE);
@@ -209,6 +226,7 @@ public class MessagesAdapter extends RecyclerView.Adapter {
         }
     }
 
+    //Getting the total count of messages
     @Override
     public int getItemCount() {
         return messages.size();

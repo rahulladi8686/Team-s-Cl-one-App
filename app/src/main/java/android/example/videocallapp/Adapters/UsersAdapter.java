@@ -38,17 +38,23 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UsersViewHol
     @NonNull
     @Override
     public UsersViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        //Inflating the layout
         View view = LayoutInflater.from(context).inflate(R.layout.row_conversation , parent , false);
         return new UsersViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull UsersViewHolder holder, int position) {
+        //Getting user from specific positon in array list
         User user = users.get(position);
 
+        //Gettting UID of current user
         String senderId = FirebaseAuth.getInstance().getUid();
+
+        //Creating custom unique id
         String senderRoom = senderId + user.getUid();
 
+        //
         FirebaseDatabase.getInstance().getReference()
                 .child("Chats")
                 .child(senderRoom)
@@ -58,8 +64,9 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UsersViewHol
                         if(snapshot.exists()) {
                             String lastMsg = snapshot.child("lastMsg").getValue(String.class);
                             long time = snapshot.child("lastMsgTime").getValue(Long.class);
-
+                            //showing last message
                             holder.binding.lastMsg.setText(lastMsg);
+                            //showing last message time
                             SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm a");
                             holder.binding.msgTime.setText(dateFormat.format(new Date(time)));
                         }else{
@@ -73,7 +80,10 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UsersViewHol
                     }
                 });
 
+        //Setting user's name
         holder.binding.username.setText(user.getName());
+
+        //Setting user's photo
         if(user.getProfileImage() != null)
         Glide.with(context).load(user.getProfileImage())
             .placeholder(R.drawable.avatar)
@@ -82,6 +92,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UsersViewHol
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //It will open personal chat section
                 Intent intent = new Intent(context , ChatActivity.class);
                 intent.putExtra("name" , user.getName());
                 intent.putExtra("uid" , user.getUid());
