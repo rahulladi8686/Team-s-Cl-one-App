@@ -5,12 +5,6 @@ Some features of app are
 ->Personal Chat
 ->Profile Section
 
-blob:file:///96ff30a4-24b7-438b-b760-88a31644c8cd
-
-blob:file:///9c628684-5e34-42d3-a2e5-2d2ee10dd627
-
-blob:file:///f8827d19-7fca-4130-917e-021a7b4a838c
-
-blob:file:///7e326e30-55a5-49a7-96dd-bb0ef90afa3f
+![demo](https://user-images.githubusercontent.com/57581549/125431217-78d77ca1-6423-4e54-8aec-e479fa1992fc.gif)
 
 Video demo of the app - https://www.youtube.com/watch?v=PVqJs2-0Kbc
